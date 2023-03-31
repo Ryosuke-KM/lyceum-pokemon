@@ -105,15 +105,26 @@ router.put(
       const {
         order,
         name,
-        sprites: { front_shiny },
+        sprites: {front_default, front_shiny},
       } = pokemon;
-      trainer.pokemons.push({
-        id: Date.now(),
-        nickname: "",
-        order,
-        name,
-        sprites: { front_shiny },
-      });
+      let randVal = Math.random();
+      if (randVal < 0.05) {
+        trainer.pokemons.push({
+          id: Date.now(),
+          nickname: "",
+          order,
+          name,
+          sprites: {front_shiny},
+        });
+      } else {
+        trainer.pokemons.push({
+          id: Date.now(),
+          nickname: "",
+          order,
+          name,
+          sprites: {front_default},
+        });
+      }
       const result = await upsertTrainer(trainerName, trainer);
       res.status(result["$metadata"].httpStatusCode).send(result);
     } catch (err) {
